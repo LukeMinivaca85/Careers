@@ -92,4 +92,31 @@ body { font-family: 'Inter', sans-serif; }
 </footer>
 
 </body>
+  <script src="languages.js"></script>
+
+<script>
+function detectLang() {
+  let lang = navigator.language;
+
+  if (LANG[lang]) return lang;
+
+  let short = lang.split("-")[0];
+
+  for (let key in LANG) {
+    if (key.startsWith(short)) return key;
+  }
+
+  return "en-US";
+}
+
+function applyLang() {
+  const t = LANG[detectLang()];
+
+  document.getElementById("title").innerText = t.title;
+  document.getElementById("subtitle").innerText = t.subtitle;
+  document.getElementById("loginBtn").innerText = t.login;
+}
+
+applyLang();
+</script>
 </html>
