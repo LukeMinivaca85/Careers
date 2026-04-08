@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Be at Lukintosh</title>
@@ -18,72 +18,70 @@ body { font-family: 'Inter', sans-serif; }
 }
 
 @keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
 
 <body class="bg-black text-white">
 
+<!-- NAV -->
 <nav class="fixed top-0 w-full flex justify-between items-center px-6 py-4 bg-black/80 backdrop-blur z-50">
   <h1 class="font-bold text-lg">Lukintosh</h1>
-  <a href="#jobs" class="text-sm hover:text-gray-400">Careers</a>
+
+  <!-- 🌍 idioma -->
+  <select id="localeSelector"
+          class="bg-black text-white text-sm border border-gray-700 rounded px-2 py-1">
+  </select>
 </nav>
 
+<!-- HERO -->
 <section class="h-screen flex flex-col justify-center items-center text-center px-6 pt-20">
-  <h1 class="text-6xl md:text-7xl font-black mb-6 fade-in">
-    Be at Lukintosh
-  </h1>
+  <h1 id="title" class="text-6xl md:text-7xl font-black mb-6 fade-in"></h1>
 
-  <p class="text-gray-400 mb-8 fade-in" style="animation-delay:0.3s">
-    Build the future. From anywhere.
-  </p>
+  <p id="subtitle" class="text-gray-400 mb-8 fade-in"></p>
 
   <a href="#jobs"
-     class="bg-white text-black px-8 py-4 rounded-full font-semibold hover:scale-110 transition fade-in"
-     style="animation-delay:0.6s">
-    View Careers
+     id="viewJobs"
+     class="bg-white text-black px-8 py-4 rounded-full font-semibold hover:scale-110 transition fade-in">
   </a>
 </section>
 
+<!-- CULTURE -->
 <section class="py-24 text-center max-w-3xl mx-auto px-6">
-  <h2 class="text-3xl font-bold mb-6">Why Lukintosh?</h2>
-  <p class="text-gray-400 leading-relaxed">
-    Small teams. Massive impact.  
-    We build like a startup, think like a big tech.
-  </p>
+  <h2 id="whyTitle" class="text-3xl font-bold mb-6"></h2>
+  <p id="whyText" class="text-gray-400"></p>
 </section>
 
+<!-- JOBS -->
 <section id="jobs" class="py-24 max-w-4xl mx-auto px-6">
-  <h2 class="text-3xl font-bold mb-12 text-center">Open Positions</h2>
+  <h2 id="jobsTitle" class="text-3xl font-bold mb-12 text-center"></h2>
 
   <div class="space-y-6">
-    <div class="border border-gray-800 p-6 rounded-xl hover:border-white hover:scale-[1.02] transition">
-      <h3 class="text-xl font-semibold">AI Engineer (Avalynx)</h3>
-      <p class="text-gray-400">Build next-gen AI systems</p>
+    <div class="border border-gray-800 p-6 rounded-xl">
+      <h3>AI Engineer</h3>
+      <p id="job1"></p>
     </div>
 
-    <div class="border border-gray-800 p-6 rounded-xl hover:border-white hover:scale-[1.02] transition">
-      <h3 class="text-xl font-semibold">Game Developer (Firezone S.A.)</h3>
-      <p class="text-gray-400">Create immersive AAA experiences</p>
+    <div class="border border-gray-800 p-6 rounded-xl">
+      <h3>Game Developer</h3>
+      <p id="job2"></p>
     </div>
 
-    <div class="border border-gray-800 p-6 rounded-xl hover:border-white hover:scale-[1.02] transition">
-      <h3 class="text-xl font-semibold">Full Stack Developer</h3>
-      <p class="text-gray-400">Work across frontend & backend systems</p>
+    <div class="border border-gray-800 p-6 rounded-xl">
+      <h3>Full Stack Developer</h3>
+      <p id="job3"></p>
     </div>
   </div>
 </section>
 
+<!-- LOGIN -->
 <section class="py-24 text-center">
-  <h2 class="text-3xl font-bold mb-6">Join Us</h2>
+  <h2 id="joinTitle" class="text-3xl font-bold mb-6"></h2>
 
   <a href="https://careers-backend-dhpk.onrender.com/auth/linkedin"
+     id="loginBtn"
      class="bg-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-blue-700 transition">
-    Sign in with LinkedIn
   </a>
 </section>
 
@@ -91,32 +89,120 @@ body { font-family: 'Inter', sans-serif; }
   © 2026 Lukintosh Corporation
 </footer>
 
-</body>
-  <script src="languages.js"></script>
-
+<!-- 🌍 SISTEMA GLOBAL -->
 <script>
-function detectLang() {
-  let lang = navigator.language;
 
-  if (LANG[lang]) return lang;
+// 🌍 CLDR BASE
+const TEXT = {
+  en: {
+    title: "Be at Lukintosh",
+    subtitle: "Build the future. From anywhere.",
+    viewJobs: "View Careers",
+    whyTitle: "Why Lukintosh?",
+    whyText: "Small teams. Massive impact.",
+    jobsTitle: "Open Positions",
+    job1: "Build AI systems",
+    job2: "Create AAA games",
+    job3: "Frontend + Backend",
+    join: "Join Us",
+    login: "Sign in with LinkedIn"
+  },
 
-  let short = lang.split("-")[0];
+  pt: {
+    title: "Esteja na Lukintosh",
+    subtitle: "Construa o futuro.",
+    viewJobs: "Ver vagas",
+    whyTitle: "Por que Lukintosh?",
+    whyText: "Times pequenos. Impacto gigante.",
+    jobsTitle: "Vagas abertas",
+    job1: "Criar IA",
+    job2: "Criar jogos AAA",
+    job3: "Frontend + Backend",
+    join: "Junte-se a nós",
+    login: "Entrar com LinkedIn"
+  },
 
-  for (let key in LANG) {
-    if (key.startsWith(short)) return key;
+  fr: {
+    title: "Rejoignez Lukintosh",
+    subtitle: "Construisez le futur.",
+    viewJobs: "Voir carrières",
+    whyTitle: "Pourquoi Lukintosh?",
+    whyText: "Petit équipe. Grand impact.",
+    jobsTitle: "Postes ouverts",
+    job1: "Construire IA",
+    job2: "Créer AAA",
+    job3: "Frontend + Backend",
+    join: "Rejoignez-nous",
+    login: "Se connecter"
   }
+};
 
-  return "en-US";
+// 🌍 idiomas disponíveis (nome nativo)
+const LOCALES = {
+  en: "English",
+  pt: "Português",
+  fr: "Français",
+  es: "Español",
+  de: "Deutsch",
+  ja: "日本語",
+  zh: "中文",
+  ar: "العربية",
+  hi: "हिन्दी"
+};
+
+// 🔍 detectar idioma
+function detectLocale() {
+  const saved = localStorage.getItem("locale");
+  if (saved) return saved;
+
+  return navigator.language.split("-")[0];
 }
 
-function applyLang() {
-  const t = LANG[detectLang()];
+// 🌍 aplicar idioma
+function applyLocale() {
+  let lang = detectLocale();
+
+  if (!TEXT[lang]) lang = "en";
+
+  const t = TEXT[lang];
 
   document.getElementById("title").innerText = t.title;
   document.getElementById("subtitle").innerText = t.subtitle;
+  document.getElementById("viewJobs").innerText = t.viewJobs;
+  document.getElementById("whyTitle").innerText = t.whyTitle;
+  document.getElementById("whyText").innerText = t.whyText;
+  document.getElementById("jobsTitle").innerText = t.jobsTitle;
+  document.getElementById("job1").innerText = t.job1;
+  document.getElementById("job2").innerText = t.job2;
+  document.getElementById("job3").innerText = t.job3;
+  document.getElementById("joinTitle").innerText = t.join;
   document.getElementById("loginBtn").innerText = t.login;
 }
 
-applyLang();
+// 🎛️ menu idiomas
+function buildSelector() {
+  const select = document.getElementById("localeSelector");
+
+  Object.keys(LOCALES).forEach(lang => {
+    const opt = document.createElement("option");
+    opt.value = lang;
+    opt.textContent = LOCALES[lang];
+    select.appendChild(opt);
+  });
+
+  select.value = detectLocale();
+
+  select.onchange = () => {
+    localStorage.setItem("locale", select.value);
+    applyLocale();
+  };
+}
+
+// 🚀 INIT
+buildSelector();
+applyLocale();
+
 </script>
+
+</body>
 </html>
